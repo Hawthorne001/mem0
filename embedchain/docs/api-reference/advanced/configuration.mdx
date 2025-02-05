@@ -20,7 +20,7 @@ app:
 llm:
   provider: openai
   config:
-    model: 'gpt-3.5-turbo'
+    model: 'gpt-4o-mini'
     temperature: 0.5
     max_tokens: 1000
     top_p: 1
@@ -55,6 +55,7 @@ embedder:
   config:
     model: 'text-embedding-ada-002'
     api_key: sk-xxx
+    http_client_proxies: http://testproxy.mem0.net:8000
 
 chunker:
   chunk_size: 2000
@@ -81,7 +82,7 @@ cache:
   "llm": {
     "provider": "openai",
     "config": {
-      "model": "gpt-3.5-turbo",
+      "model": "gpt-4o-mini",
       "temperature": 0.5,
       "max_tokens": 1000,
       "top_p": 1,
@@ -106,7 +107,8 @@ cache:
     "provider": "openai",
     "config": {
       "model": "text-embedding-ada-002",
-      "api_key": "sk-xxx"
+      "api_key": "sk-xxx",
+      "http_client_proxies": "http://testproxy.mem0.net:8000",
     }
   },
   "chunker": {
@@ -138,7 +140,7 @@ config = {
     'llm': {
         'provider': 'openai',
         'config': {
-            'model': 'gpt-3.5-turbo',
+            'model': 'gpt-4o-mini',
             'temperature': 0.5,
             'max_tokens': 1000,
             'top_p': 1,
@@ -168,7 +170,8 @@ config = {
         'provider': 'openai',
         'config': {
             'model': 'text-embedding-ada-002',
-            'api_key': 'sk-xxx'
+            'api_key': 'sk-xxx',
+            "http_client_proxies": "http://testproxy.mem0.net:8000",
         }
     },
     'chunker': {
@@ -197,13 +200,13 @@ Alright, let's dive into what each key means in the yaml config above:
     - `config`:
         - `name` (String): The name of your full-stack application.
         - `id` (String): The id of your full-stack application.
-        <Note>Only use this to reload already created apps. We recommend users to not create their own ids.</Note>
+        <Note>Only use this to reload already created apps. We recommend users not to create their own ids.</Note>
         - `collect_metrics` (Boolean): Indicates whether metrics should be collected for the app, defaults to `True`
         - `log_level` (String): The log level for the app, defaults to `WARNING`
 2. `llm` Section:
     - `provider` (String): The provider for the language model, which is set to 'openai'. You can find the full list of llm providers in [our docs](/components/llms).
     - `config`:
-        - `model` (String): The specific model being used, 'gpt-3.5-turbo'.
+        - `model` (String): The specific model being used, 'gpt-4o-mini'.
         - `temperature` (Float): Controls the randomness of the model's output. A higher value (closer to 1) makes the output more random.
         - `max_tokens` (Integer): Controls how many tokens are used in the response.
         - `top_p` (Float): Controls the diversity of word selection. A higher value (closer to 1) makes word selection more diverse.
@@ -236,6 +239,8 @@ Alright, let's dive into what each key means in the yaml config above:
         - `title` (String): The title for the embedding model for Google Embedder.
         - `task_type` (String): The task type for the embedding model for Google Embedder.
         - `model_kwargs` (Dict): Used to pass extra arguments to embedders.
+        - `http_client_proxies` (Dict | String): The proxy server settings used to create `self.http_client` using `httpx.Client(proxies=http_client_proxies)`
+        - `http_async_client_proxies` (Dict | String): The proxy server settings for async calls used to create `self.http_async_client` using `httpx.AsyncClient(proxies=http_async_client_proxies)`
 5. `chunker` Section:
     - `chunk_size` (Integer): The size of each chunk of text that is sent to the language model.
     - `chunk_overlap` (Integer): The amount of overlap between each chunk of text.
